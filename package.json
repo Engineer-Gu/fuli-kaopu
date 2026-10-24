@@ -1,0 +1,35 @@
+{
+  "name": "fuli-kaopu",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -k \"npm:dev:worker\" \"npm:dev:client\"",
+    "dev:client": "vite --host 0.0.0.0 --port 3000",
+    "predev:worker": "node -e \"require('node:fs').mkdirSync('dist', { recursive: true })\"",
+    "dev:worker": "wrangler dev --local --env dev --port 8787",
+    "build": "npm run typecheck && npm run worker:typecheck && vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 3000",
+    "typecheck": "vue-tsc --noEmit",
+    "worker:typecheck": "tsc -p tsconfig.worker.json --noEmit",
+    "db:migrate:local": "wrangler d1 migrations apply fuli-db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply fuli-db --remote"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue": "^5.2.4",
+    "bcryptjs": "^3.0.3",
+    "pinia": "^2.3.1",
+    "vite": "^5.4.21",
+    "vue": "^3.5.22",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "4.20260702.1",
+    "@types/bcryptjs": "^2.4.6",
+    "concurrently": "^9.2.1",
+    "playwright": "^1.64.1",
+    "typescript": "^5.7.3",
+    "vue-tsc": "^2.2.12",
+    "wrangler": "^4.33.0"
+  }
+}
